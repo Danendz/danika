@@ -5,11 +5,9 @@ import {Button} from "@/components/ui/button";
 import {useState, useTransition} from "react";
 import {createUser} from "@/modules/auth/actions";
 import {ZodError} from "zod";
-import {useRouter} from "next/navigation";
 import {signIn} from "next-auth/react";
 
 export const RegisterForm = () => {
-  const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
 
@@ -20,7 +18,6 @@ export const RegisterForm = () => {
       setError(null)
       try {
         await createUser(formData)
-        // @ts-ignore
         await signIn('credentials', {username: formData.get('username'), password: formData.get('password')})
       } catch (e) {
         if (e instanceof ZodError) {
