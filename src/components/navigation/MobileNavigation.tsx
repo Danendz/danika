@@ -1,9 +1,8 @@
 'use client';
-import {CalendarIcon, HomeIcon, LanguagesIcon, MessageCircleIcon} from "lucide-react";
+import {CalendarIcon, HomeIcon, LanguagesIcon, MessageCircleIcon, UserIcon} from "lucide-react";
 import {usePathname} from "next/navigation";
 import {clsx} from "clsx";
 import Link from "next/link";
-import {useSession} from "next-auth/react";
 
 const items = [
   {
@@ -26,16 +25,15 @@ const items = [
     Icon: CalendarIcon,
     to: '/calendar'
   },
+  {
+    name: 'Profile',
+    Icon: UserIcon,
+    to: '/profile'
+  },
 ] as const
 
 export const MobileNavigation = () => {
   const pathname = usePathname()
-  const session = useSession()
-
-  if (session.status !== 'authenticated')
-  {
-    return (<></>)
-  }
 
   return (
     <nav className="fixed bottom-0 left-0 w-full">
