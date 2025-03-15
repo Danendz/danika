@@ -1,8 +1,15 @@
+import {auth} from "@/plugins/auth";
 
-export default function Home() {
+export default async function Home() {
+  const session = await auth()
+
+  if (!session) {
+    return (<div>Not allowed to be here</div>)
+  }
+
   return (
     <div>
-      hello world
+      Hello {session.user?.name}
     </div>
   );
 }
