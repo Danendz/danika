@@ -6,8 +6,8 @@ export default function Layout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="w-full">
-      <main>
+    <div className="w-full flex justify-center">
+      <main className="container">
         {children}
       </main>
       <MobileNavigation/>
