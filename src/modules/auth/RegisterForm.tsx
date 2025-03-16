@@ -3,22 +3,29 @@
 import {Input} from "@/components/ui/input"
 import {Button} from "@/components/ui/button";
 import {useState, useTransition} from "react";
-import {createUser} from "@/modules/auth/actions";
 import {ZodError} from "zod";
 import {signIn} from "next-auth/react";
+import {trpc} from "@/trpc/client";
 
 export const RegisterForm = () => {
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
+  const createUserMutation = trpc.user.createUser.useMutation()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
+    if (!formData.get('username') || !formData.get('password')) {
+      return
+    }
+
     startTransition(async () => {
       setError(null)
       try {
-        await createUser(formData)
-        await signIn('credentials', {username: formData.get('username'), password: formData.get('password')})
+        const registerData = {username: formData.get('username') as string, password: formData.get('password') as string}
+
+        await createUserMutation.mutateAsync(registerData)
+        await signIn('credentials', registerData)
       } catch (e) {
         if (e instanceof ZodError) {
           setError(e.errors.map((e) => e.message).join(', '))
