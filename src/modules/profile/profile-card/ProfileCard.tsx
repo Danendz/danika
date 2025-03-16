@@ -65,7 +65,7 @@ export const ProfileCard = () => {
             {data.picture ?
               <ImageAsync
                 isLoading={isAvatarUploading}
-                className="w-auto h-full object-cover"
+                className="w-full h-full object-cover"
                 src={data.picture}
                 alt="user avatar"
                 width={100}
