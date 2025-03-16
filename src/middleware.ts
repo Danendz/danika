@@ -1,6 +1,6 @@
-import { auth } from "@/plugins/auth"
+import {auth} from "@/plugins/auth"
 
-export default auth((req) => {
+export default auth(async (req) => {
   if (req.nextUrl.pathname === '/register' && process.env.VITE_APP_ENV !== 'development') {
     const newUrl = new URL("/", req.nextUrl.origin)
 

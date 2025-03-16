@@ -41,5 +41,28 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
   },
   pages: {
     signIn: '/login'
+  },
+  callbacks: {
+    async jwt({ token, user }) {
+      // If the user object is available (on sign in), add the user ID to the token
+      if (user && user.id) {
+        token.id = user.id;
+      }
+
+      return token;
+    },
+    async session({ session, token }) {
+      // Add the user ID from the token to the session object
+      if (!token?.id) {
+        await signOut()
+        return session
+      }
+
+      if (token && session.user) {
+        session.user.id = token.id;
+      }
+
+      return session;
+    },
   }
 })
