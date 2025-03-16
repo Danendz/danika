@@ -1,7 +1,7 @@
 "use client";
 
 import Image, {ImageProps} from "next/image";
-import React, {useMemo, useState} from "react";
+import React, {useEffect, useMemo, useState} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
 
 type Props = {
@@ -20,9 +20,13 @@ export const ImageAsync = (props: Props) => {
   const visibility = !isLoading ? "visible" : "hidden"
   const loader = !isLoading ? "none" : "inline-block"
 
+  useEffect(() => {
+    setReveal(false)
+  }, [props.src])
+
   return (
     <div className="w-full h-full relative">
-      <Image {...restProps} style={{...props.style, visibility}} onError={() => setReveal(true)}
+      <Image key={props.src as string} {...restProps} style={{...props.style, visibility}} onError={() => setReveal(true)}
              onLoad={() => setReveal(true)}/>
       <div style={{display: loader}} className="absolute top-0 w-full h-full">
         {fallback ?? <Skeleton className="w-full h-full"/>}
