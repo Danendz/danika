@@ -2,7 +2,7 @@ import {protectedProcedure, createTRPCRouter, publicProcedure} from '../init';
 import {prisma} from "@/plugins/prisma";
 import {TRPCError} from "@trpc/server";
 import {z} from "zod";
-import {generateFileUrl} from "@/plugins/minio/utils";
+import {generateFileUrl} from "@/plugins/minio/client-utils";
 import {authSchema} from "@/plugins/zod/auth";
 import {hashPassword} from "@/plugins/auth/utils";
 
@@ -50,6 +50,19 @@ export const userRouter = createTRPCRouter({
       },
       data: {
         picture: link,
+      }
+    })
+  }),
+  updateBackgroundPicture: protectedProcedure.input(z.object({filename: z.string()})).mutation(async ({input, ctx}) => {
+    const link = generateFileUrl('uploads', input.filename)
+    const id = ctx.session.user.id
+
+    return prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        background_picture: link
       }
     })
   })
