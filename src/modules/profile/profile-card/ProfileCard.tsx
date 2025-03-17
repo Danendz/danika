@@ -9,7 +9,7 @@ import {ImageAsync} from "@/components/shared/image-async/ImageAsync";
 import {useUploadFile} from "@/hooks/useUploadFile";
 
 export const ProfileCard = () => {
-  const [data] = trpc.user.getCurrent.useSuspenseQuery()
+  const {data, isLoading} = trpc.user.getCurrent.useQuery()
   const trpcUtils = trpc.useUtils()
   const [uploadType, setUploadType] = useState<'avatar' | 'background'>()
   const updateProfilePictureMutation = trpc.user.updatePicture.useMutation()
@@ -27,6 +27,10 @@ export const ProfileCard = () => {
 
   const fileInputRef = useRef<HTMLInputElement>(null)
   const defaultBackgroundImage = generateFileUrl('uploads', 'default-bg.jpg')
+
+  if (isLoading || !data) {
+    return <div>Loading...</div>
+  }
 
   const backgroundImage = data.background_picture ?? defaultBackgroundImage
 
