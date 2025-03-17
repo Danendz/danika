@@ -4,12 +4,15 @@ import {Avatar} from "@/components/ui/avatar";
 import {trpc} from "@/trpc/client";
 import React, {useRef, useState} from "react";
 import {generateFileUrl} from "@/plugins/minio/client-utils";
-import {CameraIcon, UploadIcon} from "lucide-react";
+import {CameraIcon, PlusIcon, UploadIcon} from "lucide-react";
 import {ImageAsync} from "@/components/shared/image-async/ImageAsync";
 import {useUploadFile} from "@/hooks/useUploadFile";
+import {ProfileCardLoader} from "@/modules/profile/profile-card/ProfileCardLoader";
+import {ProfileCardError} from "@/modules/profile/profile-card/ProfileCardError";
+import {Button} from "@/components/ui/button";
 
 export const ProfileCard = () => {
-  const {data, isLoading} = trpc.user.getCurrent.useQuery()
+  const {data, isLoading, isError} = trpc.user.getCurrent.useQuery()
   const trpcUtils = trpc.useUtils()
   const [uploadType, setUploadType] = useState<'avatar' | 'background'>()
   const updateProfilePictureMutation = trpc.user.updatePicture.useMutation()
@@ -28,8 +31,12 @@ export const ProfileCard = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const defaultBackgroundImage = generateFileUrl('uploads', 'default-bg.jpg')
 
-  if (isLoading || !data) {
-    return <div>Loading...</div>
+  if (isLoading) {
+    return <ProfileCardLoader/>
+  }
+
+  if (isError || !data) {
+    return <ProfileCardError/>
   }
 
   const backgroundImage = data.background_picture ?? defaultBackgroundImage
@@ -51,25 +58,25 @@ export const ProfileCard = () => {
   }
 
   return (
-    <div className="flex w-full justify-center">
+    <div className="flex flex-col w-full justify-center">
       <input ref={fileInputRef} type="file" name="avatar input" className="hidden" onChange={onFileInputChange}/>
-      <div className="relative w-full">
-        <div className="w-full h-[180px]">
+      <div className="relative flex-1">
+        <div className="h-[180px]">
           <ImageAsync
             isLoading={isBackgroundUploading}
-            className="w-full h-full object-cover rounded-b-md"
+            className="object-cover rounded-b-md"
             src={backgroundImage}
             width={1000}
             height={800}
             alt="user background"/>
         </div>
         <CameraIcon className="absolute text-white bottom-2 right-2" onClick={() => onImageChangeClick('background')}/>
-        <div className="absolute left-[50%] -bottom-7 z-10 translate-x-[-50%]">
-          <Avatar className="relative w-[100px] h-[100px]">
+        <div className="flex gap-1.5 absolute md:-left-1 -bottom-9 z-10 left-0">
+          <Avatar className="relative w-[100px] h-[100px] shadow-2xl">
             {data.picture ?
               <ImageAsync
                 isLoading={isAvatarUploading}
-                className="w-full h-full object-cover"
+                className="object-cover"
                 src={data.picture}
                 alt="user avatar"
                 width={100}
@@ -81,6 +88,16 @@ export const ProfileCard = () => {
               <UploadIcon color="white"/>
             </div>
           </Avatar>
+          <div className="flex flex-col drop-shadow-lg pt-1 max-w-[200px]">
+            <span className="text-2xl font-bold">{data.name}</span>
+            <span className="font-medium truncate">Danika ID: {data.user_id}</span>
+            <div className="pt-2">
+              <Button size="xsm">
+                <PlusIcon/>
+                <div style={{lineHeight: 'normal'}}>Status</div>
+              </Button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
