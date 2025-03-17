@@ -36,10 +36,10 @@ export const MobileNavigation = () => {
   const pathname = usePathname()
 
   return (
-    <nav className="fixed bottom-0 left-0 w-full">
-      <div className="flex">
+    <nav className="flex justify-center fixed bottom-1.5 left-0 w-full px-1.5">
+      <div className="flex border-1 rounded container shadow-white/20 shadow-2xl">
         {items.map(({name, Icon, to}) => (
-          <Link key={name} href={to} className={clsx("flex-1 flex justify-center border-t-1 p-2 ", to === pathname ? 'text-blue-600' : 'text-blue-400')}>
+          <Link key={name} href={to} className={clsx("flex-1 flex justify-center py-2", to === pathname ? 'text-blue-500' : 'text-blue-400')}>
             <Icon/>
           </Link>
         ))}

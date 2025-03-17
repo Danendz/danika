@@ -26,8 +26,13 @@ export const ImageAsync = (props: Props) => {
 
   return (
     <div className="w-full h-full relative">
-      <Image key={props.src as string} {...restProps} style={{...props.style, visibility}} onError={() => setReveal(true)}
-             onLoad={() => setReveal(true)}/>
+      <Image
+        key={props.src as string} {...restProps}
+        style={{...props.style, visibility}}
+        className={`${props.className} w-full h-full select-none`}
+        onError={() => setReveal(true)}
+        onLoad={() => setReveal(true)}
+      />
       <div style={{display: loader}} className="absolute top-0 w-full h-full">
         {fallback ?? <Skeleton className="w-full h-full"/>}
       </div>
