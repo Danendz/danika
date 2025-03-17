@@ -29,7 +29,7 @@ export const userRouter = createTRPCRouter({
   getCurrent: protectedProcedure.query(async ({ctx}) => {
     const id = ctx.session.user.id
 
-    const user = await prisma.user.findUnique({where: {id}})
+    const user = await prisma.user.findUnique({where: {id}, omit: {password: true}})
 
     if (!user) {
       throw new TRPCError({

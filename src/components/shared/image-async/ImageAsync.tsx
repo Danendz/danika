@@ -3,6 +3,7 @@
 import Image, {ImageProps} from "next/image";
 import React, {useEffect, useMemo, useState} from "react";
 import {Skeleton} from "@/components/ui/skeleton";
+import {ImageOffIcon} from "lucide-react";
 
 type Props = {
   fallback?: React.ReactNode
@@ -11,6 +12,7 @@ type Props = {
 
 export const ImageAsync = (props: Props) => {
   const [reveal, setReveal] = useState(false)
+  const [error, setError] = useState(false)
   const {isLoading: propsIsLoading, fallback, ...restProps} = props
 
   const isLoading = useMemo(() => {
@@ -22,7 +24,16 @@ export const ImageAsync = (props: Props) => {
 
   useEffect(() => {
     setReveal(false)
+    setError(false)
   }, [props.src])
+
+  if ((props.src === 'no-image' || error) && !propsIsLoading) {
+    return (
+      <div className="w-full h-full bg-primary-foreground flex items-center justify-center pointer-events-none">
+        <ImageOffIcon />
+      </div>
+    )
+  }
 
   return (
     <div className="w-full h-full relative">
@@ -30,7 +41,7 @@ export const ImageAsync = (props: Props) => {
         key={props.src as string} {...restProps}
         style={{...props.style, visibility}}
         className={`${props.className} w-full h-full select-none`}
-        onError={() => setReveal(true)}
+        onError={() => setError(true)}
         onLoad={() => setReveal(true)}
       />
       <div style={{display: loader}} className="absolute top-0 w-full h-full">
