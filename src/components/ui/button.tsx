@@ -20,12 +20,16 @@ const buttonVariants = cva(
         ghost:
           "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
         link: "text-primary underline-offset-4 hover:underline",
+        icon:
+          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90 [&_svg:not([class*='size-'])]:size-6",
+        secondaryBadge: 'bg-primary/80 text-primary-foreground shadow-xs hover:bg-primary/90'
       },
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
-        xsm: 'h-5 rounded-md gap-0.5 px-1.5',
+        xsm: 'h-5 rounded-md gap-0.5 px-1.5 text-xs leading-relaxed',
+        xsmNoIcon: 'h-5 rounded-md px-2.5 text-xs leading-relaxed',
         icon: "size-9",
       },
     },

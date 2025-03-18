@@ -1,0 +1,11 @@
+.primary-px {
+    @apply px-2;
+}
+
+.mobile-nav-offset-pb {
+    @apply pb-16;
+}
+
+.mobile-nav-offset-b {
+    @apply bottom-16;
+}
