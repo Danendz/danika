@@ -71,6 +71,7 @@ export const ProfileCard = () => {
             src={backgroundImage}
             width={1000}
             height={800}
+            priority={true}
             alt="user background"/>
         </div>
         <CameraIcon className="absolute text-white bottom-2 right-2" onClick={() => onImageChangeClick('background')}/>

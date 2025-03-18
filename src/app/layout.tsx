@@ -2,6 +2,14 @@ import "./globals.css";
 import {SessionProvider} from "next-auth/react";
 import {TRPCProvider} from "@/trpc/client";
 import {ThemeProvider} from "@/components/theme/ThemeProvider";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: {
+    default: 'Danika',
+    template: '%s | Danika'
+  }
+}
 
 export default async function RootLayout({
                                            children,

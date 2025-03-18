@@ -7,7 +7,7 @@ export default function Layout({
 }>) {
   return (
     <div className="w-full flex justify-center">
-      <main className="container">
+      <main className="container mobile-nav-offset-pb">
         {children}
       </main>
       <MobileNavigation/>
