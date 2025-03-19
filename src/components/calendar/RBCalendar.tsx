@@ -8,7 +8,6 @@ import Toolbar from "@/components/calendar/components/toolbar/Toolbar";
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './styles/CalendarOverrides.scss'
 import DateCellWrapper from "@/components/calendar/components/month/DateCellWrapper";
-import {getWeek, getWeeksInMonth, getWeekYear} from "date-fns";
 import {getFixedWeeksForMonth} from "@/components/calendar/utils";
 import {clsx} from "clsx";
 
