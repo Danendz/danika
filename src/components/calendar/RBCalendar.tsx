@@ -8,6 +8,9 @@ import Toolbar from "@/components/calendar/components/toolbar/Toolbar";
 import 'react-big-calendar/lib/css/react-big-calendar.css'
 import './styles/CalendarOverrides.scss'
 import DateCellWrapper from "@/components/calendar/components/month/DateCellWrapper";
+import {getWeek, getWeeksInMonth, getWeekYear} from "date-fns";
+import {getFixedWeeksForMonth} from "@/components/calendar/utils";
+import {clsx} from "clsx";
 
 export const RBCalendar = (props: Omit<CalendarProps, keyof typeof calendarConfig>) => {
   const [view, setView] = useState<View>(Views.MONTH)
@@ -15,6 +18,10 @@ export const RBCalendar = (props: Omit<CalendarProps, keyof typeof calendarConfi
 
   const onView = useCallback((view: View) => setView(view), [setView])
   const onDate = useCallback((date: Date) => setDate(date), [setDate])
+
+  const weeks = useMemo(() => {
+    return getFixedWeeksForMonth(new Date())
+  },[])
 
   const components = useMemo<Components>(() => {
     return {
@@ -25,26 +32,27 @@ export const RBCalendar = (props: Omit<CalendarProps, keyof typeof calendarConfi
 
   return (
     <NoSSR>
-      <div className="flex w-full h-full">
-        <div>
-          <div>2</div>
-          <div>3</div>
-          <div>4</div>
-          <div>5</div>
-          <div>6</div>
-          <div>7</div>
+      <div className="custom-rb-calendar-wrapper">
+        <div className="flex w-full h-full">
+          <div className="rbc-weeks-numbers">
+            {weeks.map(({weekNumber, currentWeek}) => (
+              <div key={weekNumber} className={clsx("rbc-weeks-numbers__number", currentWeek && 'rbc-weeks-numbers__number_current')}>{weekNumber}</div>
+            ))}
+          </div>
+          <div className="w-full">
+            <Calendar
+              {...calendarConfig}
+              {...props}
+              components={components}
+              defaultView={view}
+              view={view}
+              date={date}
+              onView={onView}
+              onNavigate={onDate}
+              className="custom-rb-calendar"
+            />
+          </div>
         </div>
-        <Calendar
-          {...calendarConfig}
-          {...props}
-          components={components}
-          defaultView={view}
-          view={view}
-          date={date}
-          onView={onView}
-          onNavigate={onDate}
-          className="custom-rb-calendar"
-        />
       </div>
     </NoSSR>
   )

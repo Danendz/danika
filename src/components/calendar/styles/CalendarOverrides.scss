@@ -1,7 +1,7 @@
 @import 'react-big-calendar/lib/sass/styles';
 //@import 'react-big-calendar/lib/addons/dragAndDrop/styles';
 
-.custom-rb-calendar {
+.custom-rb-calendar-wrapper {
   --cell-height: 50px;
   --toolbar-height: 56px;
   --calendar-views-height: 60px;
@@ -10,6 +10,34 @@
   --default-height: var(--weeks) * var(--cell-height) + var(--toolbar-height) + var(--month-header-height);
   --height-views: var(--default-height) + var(--calendar-views-height) ;
 
+  .rbc-weeks-numbers {
+    margin-top: calc(var(--toolbar-height) + var(--month-header-height));
+    border-right: 1px solid var(--border);
+
+    &__number {
+      display: flex;
+      padding-inline: 4px;
+      font-size: 12px;
+      opacity: 0.5;
+      align-items: center;
+      justify-content: center;
+      height: var(--cell-height);
+
+      &_current {
+        opacity: 1;
+        color: var(--primary)
+      }
+    }
+  }
+
+  &:has(.rbc-toolbar-views-showed) {
+    .rbc-weeks-numbers {
+      margin-top: calc(var(--toolbar-height) + var(--month-header-height) + var(--calendar-views-height));
+    }
+  }
+}
+
+.custom-rb-calendar {
   height: calc(var(--default-height));
 
   &:has(.rbc-toolbar-views-showed) {
@@ -26,6 +54,9 @@
 
   .rbc-month-header {
     height: var(--month-header-height);
+    .rbc-header {
+      opacity: 0.5
+    }
   }
 
   .rbc-header {
