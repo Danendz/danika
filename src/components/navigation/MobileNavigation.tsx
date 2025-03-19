@@ -37,7 +37,7 @@ export const MobileNavigation = () => {
 
   return (
     <nav className="flex justify-center fixed bottom-3 left-0 w-full">
-      <div className="container primary-px">
+      <div className="container px-3">
         <div
           className="flex border-1 rounded-xl container shadow-white/20 shadow-2xl bg-primary-foreground">
           {items.map(({name, Icon, to}) => (

@@ -15,5 +15,5 @@ const localizer = dateFnsLocalizer({
 })
 
 export const calendarConfig = {
-  localizer
+  localizer,
 }
