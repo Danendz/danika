@@ -30,6 +30,7 @@
     "date-fns": "^4.1.0",
     "lucide-react": "^0.482.0",
     "minio": "^8.0.5",
+    "motion": "^12.5.0",
     "nanoid": "^5.1.4",
     "next": "15.2.2",
     "next-auth": "5.0.0-beta.25",

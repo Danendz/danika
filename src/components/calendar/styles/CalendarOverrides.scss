@@ -3,15 +3,12 @@
 
 .custom-rb-calendar-wrapper {
   --cell-height: 50px;
-  --toolbar-height: 56px;
-  --calendar-views-height: 60px;
   --month-header-height: 22.61px;
   --weeks: 6;
-  --default-height: var(--weeks) * var(--cell-height) + var(--toolbar-height) + var(--month-header-height);
-  --height-views: var(--default-height) + var(--calendar-views-height) ;
+  --default-height: var(--weeks) * var(--cell-height) + var(--month-header-height);
 
   .rbc-weeks-numbers {
-    margin-top: calc(var(--toolbar-height) + var(--month-header-height));
+    margin-top: var(--month-header-height);
     border-right: 1px solid var(--border);
 
     &__number {
@@ -29,28 +26,11 @@
       }
     }
   }
-
-  &:has(.rbc-toolbar-views-showed) {
-    .rbc-weeks-numbers {
-      margin-top: calc(var(--toolbar-height) + var(--month-header-height) + var(--calendar-views-height));
-    }
-  }
 }
 
 .custom-rb-calendar {
+  width: 100%;
   height: calc(var(--default-height));
-
-  &:has(.rbc-toolbar-views-showed) {
-    height: calc(var(--height-views));
-  }
-
-  .rbc-custom-toolbar {
-    height: var(--toolbar-height);
-
-    &.rbc-toolbar-views-showed {
-      height: calc(var(--toolbar-height) + var(--calendar-views-height))
-    }
-  }
 
   .rbc-month-header {
     height: var(--month-header-height);
@@ -106,8 +86,18 @@
           opacity: 0.5
         }
 
-        &.rbc-current.rbc-now {
-          color: var(--primary-foreground)
+        button {
+          user-select: none;
+        }
+
+        &.rbc-current:not(.rbc-now) {
+          button {
+            width: calc(var(--spacing) * 10);
+            height: calc(var(--spacing) * 10);
+            border: 1px solid var(--border);
+            border-radius: 3.40282e38px;
+            cursor: default;
+          }
         }
       }
     }
