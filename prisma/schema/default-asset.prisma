@@ -1,5 +1,5 @@
 model DefaultAsset {
-  id         String   @id @default(uuid(7))
+  id         String   @id @default(nanoid())
   key        String   @unique
   url        String
   created_at DateTime @default(now())
