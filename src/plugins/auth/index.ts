@@ -1,8 +1,9 @@
 import NextAuth from "next-auth";
-import { comparePasswords } from "./utils";
+import {comparePasswords} from "./utils";
 import {authSchema} from "@/plugins/zod/auth";
 import {prisma} from "@/plugins/prisma";
 import Credentials from "next-auth/providers/credentials";
+
 export const {handlers, signIn, signOut, auth} = NextAuth({
   secret: process.env.AUTH_SECRET,
   providers: [
@@ -15,7 +16,14 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
         try {
           const {username, password} = await authSchema.parseAsync(credentials)
 
-          const user = await prisma.user.findUnique({where: {username}})
+          const user = await prisma.user.findUnique({
+            where: {username},
+            select: {
+              password: true,
+              id: true,
+              name: true
+            }
+          })
 
           if (!user) {
             return null
@@ -43,7 +51,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
     signIn: '/login'
   },
   callbacks: {
-    async jwt({ token, user }) {
+    async jwt({token, user}) {
       // If the user object is available (on sign in), add the user ID to the token
       if (user && user.id) {
         token.id = user.id;
@@ -51,7 +59,7 @@ export const {handlers, signIn, signOut, auth} = NextAuth({
 
       return token;
     },
-    async session({ session, token }) {
+    async session({session, token}) {
       // Add the user ID from the token to the session object
       if (!token?.id) {
         await signOut()

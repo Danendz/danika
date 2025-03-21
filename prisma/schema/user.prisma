@@ -1,14 +1,51 @@
 model User {
-  id                 String  @id @default(uuid(7))
-  user_id            String? @unique
+  id                 String   @id @default(nanoid())
+  user_id            String?  @unique
   name               String
-  username           String  @unique
+  username           String   @unique
   picture            String?
   background_picture String?
   password           String
+  friends            Friend[]
 
   created_at DateTime @default(now())
-  updated_at DateTime @updatedAt @default(now())
+  updated_at DateTime @default(now()) @updatedAt
+
+  sent_friend_requests     FriendRequest[] @relation("Sender")
+  received_friend_requests FriendRequest[] @relation("Receiver")
+  notifications            Notification[]
 
   @@map("users")
+}
+
+model Friend {
+  id String @id @default(nanoid())
+
+  user      User   @relation(fields: [user_id], references: [id])
+  user_id   String
+  friend_id String
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+
+  @@index([friend_id])
+}
+
+model FriendRequest {
+  id String @id @default(nanoid())
+
+  sender_id    String
+  recipient_id String
+  sender       User          @relation("Sender", fields: [sender_id], references: [id])
+  recipient    User          @relation("Receiver", fields: [recipient_id], references: [id])
+  status       RequestStatus @default(PENDING)
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+}
+
+enum RequestStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
 }

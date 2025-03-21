@@ -31,6 +31,7 @@ const buttonVariants = cva(
         xsm: 'h-5 rounded-md gap-0.5 px-1.5 text-xs leading-relaxed',
         xsmNoIcon: 'h-5 rounded-md px-2.5 text-xs leading-relaxed',
         icon: "size-9",
+        xsIcon: "size-7"
       },
     },
     defaultVariants: {
