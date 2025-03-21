@@ -56,11 +56,11 @@ export default function FriendAddDialog() {
   }
 
   const handleSendRequest = useCallback(async () => {
-    if (!data) return
+    if (!data || isPending) return
 
     await mutateAsync({id: data.id})
     void trpcUtils.user.getCurrentUserSentRequests.invalidate()
-  }, [data, mutateAsync, trpcUtils.user.getCurrentUserSentRequests])
+  }, [data, mutateAsync, trpcUtils.user.getCurrentUserSentRequests, isPending])
 
   const isAlreadyRequestSent = useMemo(() => {
     if (!sent_requests || !data || !friends) {
@@ -101,11 +101,11 @@ export default function FriendAddDialog() {
     }
 
     return <FriendCard picture={data.picture} user_id={data.user_id} name={data.name} append={(
-      <Button disabled={isAlreadyRequestSent} variant="icon" size="xsIcon" onClick={handleSendRequest}>
+      <Button disabled={isAlreadyRequestSent || isPending} variant="icon" size="xsIcon" onClick={handleSendRequest}>
         <PlusIcon/>
       </Button>
     )}/>
-  }, [isRefetchError, isLoading, data, hasSearched, isAlreadyRequestSent, handleSendRequest])
+  }, [isRefetchError, isLoading, data, hasSearched, isAlreadyRequestSent, handleSendRequest, isPending])
 
   return (
     <DrawerContent className="h-[50vh]">

@@ -10,7 +10,7 @@ import {
 import {signOut} from "next-auth/react";
 import {useState} from "react";
 import FriendsDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsDialog";
-import DrawerDialog from "@/components/Dialog/DrawerDialog";
+import DrawerDialog from "@/components/dialog/DrawerDialog";
 
 export const ProfileMenu = () => {
   const [showFriendsDialog, setFriendsDialog] = useState(false)

@@ -5,13 +5,16 @@ import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/
 import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
 import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendCard";
 import {Button} from "@/components/ui/button";
-import {CheckIcon, XIcon} from "lucide-react";
+import {CheckIcon, RefreshCwIcon, XIcon} from "lucide-react";
 import {toast} from "sonner";
 
 export default function FriendRequestsDialog() {
   const trpcUtils = trpc.useUtils()
   const {data, isLoading, isError, refetch} = trpc.friendRequest.listFriendRequests.useQuery()
-  const {mutateAsync: rejectFriendRequest} = trpc.friendRequest.rejectFriendRequest.useMutation({
+  const {
+    isPending: isRejectPending,
+    mutateAsync: rejectFriendRequest
+  } = trpc.friendRequest.rejectFriendRequest.useMutation({
     onError: (error) => {
       toast(error.message)
     },
@@ -20,7 +23,10 @@ export default function FriendRequestsDialog() {
     }
   })
 
-  const {mutateAsync: acceptFriendRequest} = trpc.friendRequest.acceptFriendRequest.useMutation({
+  const {
+    isPending: isAcceptPending,
+    mutateAsync: acceptFriendRequest
+  } = trpc.friendRequest.acceptFriendRequest.useMutation({
     onError: (error) => {
       toast(error.message)
     },
@@ -43,7 +49,7 @@ export default function FriendRequestsDialog() {
 
   const bodyComponent = useMemo(() => {
     if (isLoading) {
-      return <FriendsLoading />
+      return <FriendsLoading/>
     }
 
     if (isError) {
@@ -64,24 +70,29 @@ export default function FriendRequestsDialog() {
 
     return (
       <>
-        {data.map(({id,  sender: {user_id,  picture, name}}) => (
+        {data.map(({id, sender: {user_id, picture, name}}) => (
           <FriendCard key={id} picture={picture} name={name} user_id={user_id} append={(
             <div className="flex gap-2">
-              <Button variant="icon" size="xsIcon" className="bg-red-500/80 text-white" onClick={() => rejectRequest(id)}><XIcon/></Button>
-              <Button variant="icon" size="xsIcon" className="bg-green-500/80 text-white" onClick={() => acceptRequest(id)}><CheckIcon /></Button>
+              <Button disabled={isRejectPending || isAcceptPending} variant="icon" size="xsIcon"
+                      className="bg-red-500/80 text-white" onClick={() => rejectRequest(id)}><XIcon/></Button>
+              <Button disabled={isRejectPending || isAcceptPending} variant="icon" size="xsIcon"
+                      className="bg-green-500/80 text-white" onClick={() => acceptRequest(id)}><CheckIcon/></Button>
             </div>
-          )} />
+          )}/>
         ))}
       </>
     )
-  }, [isLoading, isError, data, rejectRequest, acceptRequest])
+  }, [isLoading, isError, data, rejectRequest, acceptRequest, isRejectPending, isAcceptPending])
   return (
     <DrawerContent className="h-screen">
       <DrawerHeader>
-        <DrawerTitle>Friend requests</DrawerTitle>
+        <div className="flex justify-between items-center">
+          <DrawerTitle>Friend requests</DrawerTitle>
+          <Button onClick={() => refetch()} disabled={isLoading} size="icon" variant="ghost"><RefreshCwIcon /></Button>
+        </div>
       </DrawerHeader>
 
-      <div className="px-4">
+      <div className="flex gap-2 flex-col px-4">
         {bodyComponent}
       </div>
     </DrawerContent>

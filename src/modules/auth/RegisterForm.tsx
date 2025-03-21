@@ -6,8 +6,10 @@ import {useState, useTransition} from "react";
 import {ZodError} from "zod";
 import {signIn} from "next-auth/react";
 import {trpc} from "@/trpc/client";
+import {useRouter} from "next/navigation";
 
 export const RegisterForm = () => {
+  const router = useRouter()
   const [error, setError] = useState<string | null>(null)
   const [isPending, startTransition] = useTransition()
   const createUserMutation = trpc.user.createUser.useMutation()
@@ -26,6 +28,7 @@ export const RegisterForm = () => {
 
         await createUserMutation.mutateAsync(registerData)
         await signIn('credentials', registerData)
+        router.push('/')
       } catch (e) {
         if (e instanceof ZodError) {
           setError(e.errors.map((e) => e.message).join(', '))
