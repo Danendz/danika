@@ -3,6 +3,7 @@ import {SessionProvider} from "next-auth/react";
 import {TRPCProvider} from "@/trpc/client";
 import {ThemeProvider} from "@/components/theme/ThemeProvider";
 import {Metadata} from "next";
+import {Toaster} from "@/components/ui/sonner";
 
 export const metadata: Metadata = {
   title: {
@@ -31,6 +32,7 @@ export default async function RootLayout({
         </TRPCProvider>
       </SessionProvider>
     </ThemeProvider>
+    <Toaster />
     </body>
     </html>
   );

@@ -27,10 +27,10 @@ export const ImageAsync = (props: Props) => {
     setError(false)
   }, [props.src])
 
-  if ((props.src === 'no-image' || error) && !propsIsLoading) {
+  if ((props.src === 'no-image' || error)) {
     return (
       <div className="w-full h-full bg-primary-foreground flex items-center justify-center pointer-events-none">
-        <ImageOffIcon />
+        {propsIsLoading ? <Skeleton className="w-full h-full"/> : <ImageOffIcon />}
       </div>
     )
   }

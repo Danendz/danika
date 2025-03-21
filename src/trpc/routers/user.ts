@@ -29,7 +29,17 @@ export const userRouter = createTRPCRouter({
   getCurrent: protectedProcedure.query(async ({ctx}) => {
     const id = ctx.session.user.id
 
-    const user = await prisma.user.findUnique({where: {id}, omit: {password: true}})
+    const user = await prisma.user.findUnique({
+      where: {id},
+      select: {
+        user_id: true,
+        username: true,
+        id: true,
+        picture: true,
+        background_picture: true,
+        name: true,
+      }
+    })
 
     if (!user) {
       throw new TRPCError({
@@ -39,6 +49,33 @@ export const userRouter = createTRPCRouter({
     }
 
     return user
+  }),
+  getCurrentUserSentRequests: protectedProcedure.query(async({ctx}) => {
+    const id = ctx.session.user.id
+
+    const user = await prisma.user.findUnique({
+      where: {id},
+      select: {
+        sent_friend_requests: {
+          where: {
+            status: "PENDING"
+          },
+          select: {
+            recipient: {
+              select: {
+                id: true,
+                name: true,
+                user_id: true,
+                picture: true,
+                background_picture: true
+              }
+            }
+          }
+        },
+      }
+    })
+
+    return user?.sent_friend_requests ?? []
   }),
   updatePicture: protectedProcedure.input(z.object({filename: z.string()})).mutation(async ({input, ctx}) => {
     const link = generateFileUrl('uploads', input.filename)
@@ -63,6 +100,24 @@ export const userRouter = createTRPCRouter({
       },
       data: {
         background_picture: link
+      }
+    })
+  }),
+  searchUser: protectedProcedure.input(z.object({search: z.string()})).query(async ({input, ctx}) => {
+    const search = input.search
+    const userId = ctx.session.user.id
+
+    return prisma.user.findFirst({
+      where: {
+        id: {not: userId},
+        user_id: search
+      },
+      select: {
+        id: true,
+        name: true,
+        user_id: true,
+        background_picture: true,
+        picture: true
       }
     })
   })
