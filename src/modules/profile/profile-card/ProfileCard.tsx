@@ -91,7 +91,7 @@ export const ProfileCard = () => {
               <UploadIcon color="white"/>
             </div>
           </Avatar>
-          <div className="flex flex-col drop-shadow-lg pt-1 max-w-[200px]">
+          <div className="flex flex-col drop-shadow-lg pt-1 w-[calc(100vw-150px)] max-w-[400px]">
             <span className="text-2xl font-bold">{data.name}</span>
             <span className="font-medium truncate">Danika ID: {data.user_id}</span>
             <div className="pt-2">

@@ -5,6 +5,8 @@ import {z} from "zod";
 import {generateFileUrl} from "@/plugins/minio/client-utils";
 import {authSchema} from "@/plugins/zod/auth";
 import {hashPassword} from "@/plugins/auth/utils";
+import {signOut} from "@/plugins/auth";
+import {nanoid} from "nanoid";
 
 export const userRouter = createTRPCRouter({
   createUser: publicProcedure.input(authSchema).mutation(async ({input}) => {
@@ -21,6 +23,7 @@ export const userRouter = createTRPCRouter({
     return prisma.user.create({
       data: {
         username,
+        user_id: `${username}_${nanoid(7)}`,
         password: hashedPass,
         name: 'user'
       }
@@ -42,6 +45,7 @@ export const userRouter = createTRPCRouter({
     })
 
     if (!user) {
+      await signOut({redirectTo: '/login'})
       throw new TRPCError({
         code: 'UNAUTHORIZED',
         message: 'User with this session id is not found'

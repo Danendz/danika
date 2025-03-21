@@ -6,17 +6,17 @@ import {
 } from "@/components/ui/drawer";
 import {trpc} from "@/trpc/client";
 import {Button} from "@/components/ui/button";
-import {PlusIcon, UserPlus} from "lucide-react";
+import {PlusIcon, RefreshCwIcon, UserPlus} from "lucide-react";
 import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsLoading";
 import FriendsList from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsList";
 import {useMemo, useState} from "react";
 import FriendAddDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendAddDialog";
-import DrawerDialog from "@/components/Dialog/DrawerDialog";
+import DrawerDialog from "@/components/dialog/DrawerDialog";
 import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
 import FriendRequestsDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendRequestsDialog";
 
 export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: boolean }) {
-  const {data, isLoading, isError} = trpc.friend.listFriends.useQuery(
+  const {data, isLoading, isError, refetch} = trpc.friend.listFriends.useQuery(
     undefined,
     {
       enabled: showFriendsDialog
@@ -65,7 +65,10 @@ export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: 
 
       <DrawerContent className="h-screen mt-0">
         <DrawerHeader>
-          <DrawerTitle>Your friends list</DrawerTitle>
+          <div className="flex justify-between items-center">
+            <DrawerTitle>Your friends list</DrawerTitle>
+            <Button variant="ghost" size="icon" onClick={() => refetch()} disabled={isLoading}><RefreshCwIcon /></Button>
+          </div>
         </DrawerHeader>
         <div className="px-4 flex flex-col gap-4">
           <div className="flex flex-col gap-2">
