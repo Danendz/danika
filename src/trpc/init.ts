@@ -10,7 +10,7 @@ export const createTRPCContext = cache(async () => {
 
 const t = initTRPC.context<{ session: { user: { name: string, id: string } } | null }>().create();
 
-const isAuthed = t.middleware(({ctx, next}) => {
+const isAuthed = t.middleware(async ({ctx, next}) => {
   if (!ctx.session || !ctx.session.user) {
     throw new TRPCError({
       code: 'UNAUTHORIZED',
