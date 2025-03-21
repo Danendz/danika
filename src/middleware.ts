@@ -1,6 +1,10 @@
 import {auth} from "@/plugins/auth"
 
 export default auth(async (req) => {
+  if (req.nextUrl.pathname === '/manifest.webmanifest') {
+    return
+  }
+
   if (req.nextUrl.pathname === '/register' && process.env.APP_ENV !== 'development') {
     const newUrl = new URL("/", req.nextUrl.origin)
 

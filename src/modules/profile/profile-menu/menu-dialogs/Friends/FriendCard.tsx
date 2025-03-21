@@ -19,7 +19,7 @@ export default function FriendCard({picture, name, user_id, append}: Props) {
           </Avatar>
         </div>
         <div className="flex flex-col gap-1">
-          <div className="font-bold">
+          <div className="font-bold" style={{lineHeight: 'normal'}}>
             {name}
           </div>
           <div className="text-xs">
