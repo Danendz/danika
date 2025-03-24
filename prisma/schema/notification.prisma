@@ -1,20 +1,21 @@
 model Notification {
   id String @id @default(nanoid())
 
-  recipient_id String
-  recipient    User                 @relation(fields: [recipient_id], references: [id])
+  recipient_id String?
+  recipient    User?                @relation(fields: [recipient_id], references: [id])
+  all_friends  Boolean?
   read         Boolean              @default(false)
   category     NotificationCategory
   content      String
   data         Json
 
-  created_at    DateTime        @default(now())
-  updated_at    DateTime        @updatedAt
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 }
 
 enum NotificationCategory {
   FRIEND_REQUEST
   MESSAGE
   SYSTEM
-  PRODUCT
+  EVENT_ADD
 }

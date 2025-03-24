@@ -14,6 +14,7 @@ model User {
   sent_friend_requests     FriendRequest[] @relation("Sender")
   received_friend_requests FriendRequest[] @relation("Receiver")
   notifications            Notification[]
+  events                    Event[]
 
   @@map("users")
 }
@@ -28,8 +29,8 @@ model Friend {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  @@index([friend_id])
   @@unique([user_id, friend_id])
+  @@index([friend_id])
 }
 
 model FriendRequest {

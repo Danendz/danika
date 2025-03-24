@@ -1,0 +1,31 @@
+model Event {
+  id   String @id @default(nanoid())
+  name String
+
+  user User @relation(fields: [user_id], references: [id])
+
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  user_id    String
+
+  all_day Boolean
+  from    DateTime
+  to      DateTime?
+  repeat  EventRepeat @default(ONE_TIME)
+  type    EventType
+}
+
+enum EventRepeat {
+  ONE_TIME
+  DAILY
+  WEEKDAYS
+  WEEKLY
+  MONTHLY
+  MONTHLY_SAME_DATE
+  YEARLY
+}
+
+enum EventType {
+  DEFAULT
+  COUNTDOWN
+}
