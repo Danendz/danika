@@ -3,7 +3,7 @@
 import {Button} from "@/components/ui/button";
 import {PlusIcon, SquareCheckIcon, StarIcon} from "lucide-react";
 import DrawerDialog from "@/components/dialog/DrawerDialog";
-import {useEffect, useReducer, useState} from "react";
+import {useCallback, useEffect, useReducer, useState} from "react";
 import {DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
 import {clsx} from "clsx";
 import CountdownForm from "@/modules/calendar/event-forms/CountdownForm";
@@ -93,10 +93,14 @@ export default function AddEventBtn() {
     dispatchData({type: 'set-type', value})
   }
 
+  const onChangeCallback = useCallback((data: Pick<EventData, 'from' | 'to' | 'all_day' | 'repeat'>) => {
+    dispatchData({type: 'set-event', value: data})
+  }, [])
+
   const eventFormComponent = () => {
     switch (data.type) {
       case 'DEFAULT':
-        return <EventForm data={data} onChange={(data) => dispatchData({type: 'set-event', value: data})}/>
+        return <EventForm data={data} onChange={onChangeCallback}/>
       case 'COUNTDOWN':
         return <CountdownForm/>
     }
