@@ -1,6 +1,6 @@
 import {DrawerContent, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
 import {trpc} from "@/trpc/client";
-import {useCallback, useMemo} from "react";
+import {useCallback} from "react";
 import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsLoading";
 import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
 import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendCard";
@@ -47,7 +47,7 @@ export default function FriendRequestsDialog() {
     void trpcUtils.friend.invalidate()
   }, [acceptFriendRequest, refetch, trpcUtils.friend])
 
-  const bodyComponent = useMemo(() => {
+  const bodyComponent = () => {
     if (isLoading) {
       return <FriendsLoading/>
     }
@@ -82,7 +82,7 @@ export default function FriendRequestsDialog() {
         ))}
       </>
     )
-  }, [isLoading, isError, data, rejectRequest, acceptRequest, isRejectPending, isAcceptPending])
+  }
   return (
     <DrawerContent className="h-screen">
       <DrawerHeader>
@@ -93,7 +93,7 @@ export default function FriendRequestsDialog() {
       </DrawerHeader>
 
       <div className="flex gap-2 flex-col px-4">
-        {bodyComponent}
+        {bodyComponent()}
       </div>
     </DrawerContent>
   )

@@ -9,7 +9,7 @@ import {Button} from "@/components/ui/button";
 import {PlusIcon, RefreshCwIcon, UserPlus} from "lucide-react";
 import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsLoading";
 import FriendsList from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsList";
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import FriendAddDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendAddDialog";
 import DrawerDialog from "@/components/dialog/DrawerDialog";
 import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
@@ -28,7 +28,7 @@ export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: 
   const [isAddDialogVisible, setIsAddDialogVisible] = useState(false)
   const [isFriendRequestsDialogVisible, setIsFriendRequestsDialogVisible] = useState(false)
 
-  const bodyComponent = useMemo(() => {
+  const bodyComponent = () => {
     if (isLoading) {
       return <FriendsLoading/>
     }
@@ -50,7 +50,7 @@ export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: 
     }
 
     return <FriendsList list={data}/>
-  }, [isLoading, isError, data])
+  }
 
   return (
     <>
@@ -84,7 +84,7 @@ export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: 
           </div>
 
           <div className="flex flex-col gap-2">
-            {bodyComponent}
+            {bodyComponent()}
           </div>
         </div>
         {/*<DrawerFooter>*/}

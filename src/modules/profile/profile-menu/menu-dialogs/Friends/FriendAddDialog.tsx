@@ -71,7 +71,7 @@ export default function FriendAddDialog() {
       || !!friends.find((friend) => friend.user.id === data.id)
   }, [sent_requests, data, friends])
 
-  const bodyComponent = useMemo(() => {
+  const bodyComponent = () => {
     if (!hasSearched) {
       return (
         <FriendsTextCard>
@@ -105,7 +105,7 @@ export default function FriendAddDialog() {
         <PlusIcon/>
       </Button>
     )}/>
-  }, [isRefetchError, isLoading, data, hasSearched, isAlreadyRequestSent, handleSendRequest, isPending])
+  }
 
   return (
     <DrawerContent className="h-[50vh]">
@@ -119,7 +119,7 @@ export default function FriendAddDialog() {
         </div>
 
         <div className="mt-4">
-            {bodyComponent}
+            {bodyComponent()}
         </div>
       </div>
     </DrawerContent>

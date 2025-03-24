@@ -5,12 +5,14 @@ import {defaultAssetRouter} from "@/trpc/routers/default-asset";
 import {friendRouter} from "@/trpc/routers/friend";
 import {friendRequestRouter} from "@/trpc/routers/friend-request";
 import {inferRouterOutputs} from "@trpc/server";
+import {eventRouter} from "@/trpc/routers/event";
 export const appRouter = createTRPCRouter({
   file: fileRouter,
   user: userRouter,
   defaultAsset: defaultAssetRouter,
   friend: friendRouter,
-  friendRequest: friendRequestRouter
+  friendRequest: friendRequestRouter,
+  eventRouter: eventRouter
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
