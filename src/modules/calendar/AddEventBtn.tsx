@@ -80,7 +80,7 @@ export default function AddEventBtn() {
   const [data, dispatchData] = useReducer(dataReducer, initData())
   const [isAddEventVisible, setIsAddEventVisible] = useState(false)
   const trpcUtils = trpc.useUtils()
-  const {isPending, mutateAsync} = trpc.eventRouter.createEvent.useMutation({
+  const {isPending, mutateAsync} = trpc.event.createEvent.useMutation({
     onSuccess: () => {
       toast("Event successfully created")
     },
@@ -102,7 +102,7 @@ export default function AddEventBtn() {
       case 'DEFAULT':
         return <EventForm data={data} onChange={onChangeCallback}/>
       case 'COUNTDOWN':
-        return <CountdownForm/>
+        return <CountdownForm data={data} onChange={onChangeCallback}/>
     }
   }
 
@@ -114,7 +114,7 @@ export default function AddEventBtn() {
 
   const createEvent = async () => {
     await mutateAsync(data)
-    void trpcUtils.eventRouter.listEvents.invalidate()
+    void trpcUtils.event.listEvents.invalidate()
     setIsAddEventVisible(false)
   }
 
@@ -128,8 +128,9 @@ export default function AddEventBtn() {
           <div className="px-4">
             <div className="flex justify-around items-center">
               {events.map(({value, Icon, name}) => (
-                <div key={value} className={clsx("flex gap-2 items-center", data.type === value && "text-primary")}>
-                  <Icon onClick={() => changeEvent(value)}/>
+                <div key={value} className={clsx("flex gap-2 items-center", data.type === value && "text-primary")}
+                     onClick={() => changeEvent(value)}>
+                  <Icon/>
                   <span>{name}</span>
                 </div>
               ))}
@@ -148,7 +149,8 @@ export default function AddEventBtn() {
 
           <DrawerFooter>
             <div className="flex gap-4">
-              <Button className="flex-1" variant="secondary" onClick={() => setIsAddEventVisible(false)} disabled={isPending}>Cancel</Button>
+              <Button className="flex-1" variant="secondary" onClick={() => setIsAddEventVisible(false)}
+                      disabled={isPending}>Cancel</Button>
               <Button className="flex-1" disabled={isPending} onClick={() => createEvent()}>Create</Button>
             </div>
           </DrawerFooter>

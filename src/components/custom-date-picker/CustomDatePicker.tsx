@@ -88,7 +88,7 @@ export default function CustomDatePicker({initial, onChange}: Props) {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Hours"/>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="max-h-[300px]">
             {hours.map((val) => (
               <SelectItem key={val} value={String(val)}>{String(val).padStart(2, '0')}</SelectItem>
             ))}
@@ -102,7 +102,7 @@ export default function CustomDatePicker({initial, onChange}: Props) {
           <SelectTrigger className="w-full">
             <SelectValue placeholder="Hours"/>
           </SelectTrigger>
-          <SelectContent>
+          <SelectContent className="max-h-[300px]">
             {minutes.map((val) => (
               <SelectItem key={val} value={String(val)}>{String(val).padStart(2, '0')}</SelectItem>
             ))}
