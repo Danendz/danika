@@ -3,6 +3,9 @@ import {useEffect, useState} from "react";
 import {resolveDateFull} from "@/utils";
 import DatePickerDialog from "@/components/custom-date-picker/DatePickerDialog";
 import {EventData} from "@/modules/calendar/types";
+import {getRepeatNameByValue} from "@/modules/calendar/utils";
+import RepeatChooseDialog from "@/modules/calendar/event-forms/components/RepeatChooseDialog";
+import {EventRepeat} from "@prisma/client";
 
 interface Props {
   data: EventData
@@ -12,8 +15,10 @@ interface Props {
 export default function EventForm({data, onChange}: Props) {
   const [dateFromPickerVisible, setDateFromPickerVisible] = useState(false)
   const [dateToPickerVisible, setDateToPickerVisible] = useState(false)
+  const [isRepeatDialogVisible, setIsRepeatDialogVisible] = useState(false)
+
   const [allDay, setAllDay] = useState(data.all_day)
-  const [repeat, setRepeat] = useState(data.repeat)
+  const [repeat, setRepeat] = useState(data.repeat as EventRepeat)
 
   const [fromDate, setFromDate] = useState(data.from as Date)
 
@@ -44,14 +49,26 @@ export default function EventForm({data, onChange}: Props) {
         setIsDialogVisible={setDateToPickerVisible}
         title="To"
       />
+
+      <RepeatChooseDialog
+        isDialogVisible={isRepeatDialogVisible}
+        setIsDialogVisible={setIsRepeatDialogVisible}
+        value={repeat}
+        onChange={setRepeat}
+        date={fromDate}
+        type={data.type}
+      />
       <div className="flex justify-between items-center">
-        All day <Switch value={String(allDay)} onChange={(e) => setAllDay(e.currentTarget.value !== 'false')}/>
+        All day <Switch checked={allDay} onCheckedChange={(e) => setAllDay(e)}/>
       </div>
       <div className="flex justify-between items-center" onClick={() => setDateFromPickerVisible(true)}>
         <span>From </span> {resolveDateFull(fromDate)}
       </div>
       <div className="flex justify-between items-center" onClick={() => setDateToPickerVisible(true)}>
         <span>To </span> {resolveDateFull(toDate)}
+      </div>
+      <div className="flex justify-between items-center" onClick={() => setIsRepeatDialogVisible(true)}>
+        <span>Repeat </span> {getRepeatNameByValue(repeat, fromDate)}
       </div>
     </div>
   )

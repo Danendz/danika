@@ -1,4 +1,5 @@
 import {ReactNode} from "react";
+import {motion} from "motion/react";
 
 export default function Card({children}: { children: ReactNode }) {
   return (

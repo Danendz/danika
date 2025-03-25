@@ -2,11 +2,37 @@ import {createTRPCRouter, protectedProcedure} from "@/trpc/init";
 import {z} from "zod";
 import {Prisma} from "@prisma/client";
 import {prisma} from "@/plugins/prisma";
+import {TRPCError} from "@trpc/server";
 
 export const eventRouter = createTRPCRouter({
   listEvents: protectedProcedure
-    .query(() => {
+    .query(async ({ctx}) => {
+      const user = await prisma.user.findUnique({
+        where: {id: ctx.session.user.id},
+        select: {
+          friends: {
+            select: {
+              friend_id: true
+            }
+          }
+        }
+      })
+
+      if (!user) {
+        throw new TRPCError({
+          code: 'NOT_FOUND',
+          message: 'Session user is not found'
+        })
+      }
+
+      const friendIds = user.friends.map(({friend_id}) => friend_id)
+
+      const userIds = [...friendIds, ctx.session.user.id]
+
       return prisma.event.findMany({
+        where: {
+          user_id: {in: userIds}
+        },
         select: {
           user: {
             select: {

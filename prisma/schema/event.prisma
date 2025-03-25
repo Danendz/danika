@@ -10,12 +10,13 @@ model Event {
 
   all_day Boolean
   from    DateTime
-  to      DateTime?
+  to      DateTime
   repeat  EventRepeat @default(ONE_TIME)
   type    EventType
 }
 
 enum EventRepeat {
+  NEVER
   ONE_TIME
   DAILY
   WEEKDAYS

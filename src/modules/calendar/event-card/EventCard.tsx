@@ -5,10 +5,30 @@ import {Skeleton} from "@/components/ui/skeleton";
 import {EventData} from "@/modules/calendar/types";
 import CountdownCard from "@/modules/calendar/event-card/CountdownCard";
 import DefaultCard from "@/modules/calendar/event-card/DefaultCard";
+import {useCalendarStore} from "@/components/calendar/store/useCalendarStore";
+import {differenceInCalendarDays} from "date-fns";
+import {useMemo} from "react";
+import {isDateBetween} from "@/utils";
+import {AnimatePresence, motion} from "motion/react";
+import EventCardAnimationLayout from "@/modules/calendar/event-card/EventCardAnimationLayout";
 
 const eventsLoadingArray = new Array(3).fill(0)
 export default function EventCard() {
-  const {data, isLoading, isError} = trpc.eventRouter.listEvents.useQuery()
+  const {data, isLoading, isError} = trpc.event.listEvents.useQuery()
+  const {date} = useCalendarStore()
+
+  const events = useMemo(() => {
+    if (!data) return []
+
+    return data.filter((item) => {
+      switch (item.type) {
+        case 'DEFAULT':
+          return isDateBetween(new Date(item.from), new Date(item.to), date)
+        case 'COUNTDOWN':
+          return differenceInCalendarDays(new Date(item.from), date) >= 0
+      }
+    })
+  }, [data, date])
 
   if (isLoading) {
     return (
@@ -16,8 +36,8 @@ export default function EventCard() {
         <div className="flex flex-col gap-5">
           {eventsLoadingArray.map((_, i) => (
             <div key={i} className="flex flex-col gap-1">
-              <Skeleton className="w-15 h-3" />
-              <Skeleton className="w-20 h-3" />
+              <Skeleton className="w-15 h-3"/>
+              <Skeleton className="w-20 h-3"/>
             </div>
           ))}
         </div>
@@ -33,7 +53,7 @@ export default function EventCard() {
     )
   }
 
-  if (!data.length) {
+  if (!events.length) {
     return (
       <Card>
         No events!
@@ -41,23 +61,30 @@ export default function EventCard() {
     )
   }
 
-  const getCardByType = (type: EventData['type'], props: Omit<typeof data[number], 'id' | 'type'>) => {
+  const getCardComponent = (type: EventData['type']) => {
     switch (type) {
       case 'COUNTDOWN':
-        return <CountdownCard name={props.name} when={new Date(props.from)} />
+        return CountdownCard
       case 'DEFAULT':
-        return <DefaultCard name={props.name} all_day={props.all_day} />
+        return DefaultCard
     }
   }
 
   return (
     <Card>
       <div className="flex flex-col gap-5">
-        {data.map(({id, name, type, ...rest}) => (
-          <div key={id} className="flex flex-col gap-1">
-            {getCardByType(type, {...rest, name})}
-          </div>
-        ))}
+        <AnimatePresence>
+          {events.map((data) => {
+            const CardComponent = getCardComponent(data.type)
+            return (
+              <EventCardAnimationLayout key={data.id}>
+                <div className="flex flex-col gap-1">
+                  {<CardComponent data={data}/>}
+                </div>
+              </EventCardAnimationLayout>
+            )
+          })}
+        </AnimatePresence>
       </div>
     </Card>
   )

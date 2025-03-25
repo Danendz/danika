@@ -12,7 +12,7 @@ export const appRouter = createTRPCRouter({
   defaultAsset: defaultAssetRouter,
   friend: friendRouter,
   friendRequest: friendRequestRouter,
-  eventRouter: eventRouter
+  event: eventRouter
 });
 // export type definition of API
 export type AppRouter = typeof appRouter;
