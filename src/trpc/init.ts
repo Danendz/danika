@@ -8,7 +8,13 @@ export const createTRPCContext = cache(async () => {
   return {session: session} as { session: { user: { name: string, id: string } } | null };
 });
 
-const t = initTRPC.context<{ session: { user: { name: string, id: string } } | null }>().create();
+type Context = {
+  session: {
+    user: { name: string, id: string }
+  } | null ,
+}
+
+const t = initTRPC.context<Context>().create();
 
 const isAuthed = t.middleware(async ({ctx, next}) => {
   if (!ctx.session || !ctx.session.user) {
@@ -22,8 +28,11 @@ const isAuthed = t.middleware(async ({ctx, next}) => {
     ctx: {session: ctx.session},
   });
 })
+
 // Base router and procedure helpers
 export const createTRPCRouter = t.router;
 export const createCallerFactory = t.createCallerFactory;
+
+
 export const publicProcedure = t.procedure
 export const protectedProcedure = t.procedure.use(isAuthed);
