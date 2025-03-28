@@ -82,7 +82,7 @@ export const userRouter = createTRPCRouter({
     return user?.sent_friend_requests ?? []
   }),
   updatePicture: protectedProcedure.input(z.object({filename: z.string()})).mutation(async ({input, ctx}) => {
-    const link = generateFileUrl('uploads', input.filename)
+    const link = generateFileUrl(input.filename)
     const id = ctx.session.user.id
 
     return prisma.user.update({
@@ -95,7 +95,7 @@ export const userRouter = createTRPCRouter({
     })
   }),
   updateBackgroundPicture: protectedProcedure.input(z.object({filename: z.string()})).mutation(async ({input, ctx}) => {
-    const link = generateFileUrl('uploads', input.filename)
+    const link = generateFileUrl(input.filename)
     const id = ctx.session.user.id
 
     return prisma.user.update({

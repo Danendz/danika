@@ -1,4 +1,4 @@
-import {buckets} from "@/plugins/minio/constants";
+import {env} from "@/env/client";
 
 export const uploadFileMinio = async (url: string, file: File) => {
   const res = await fetch(url, {
@@ -13,7 +13,7 @@ export const uploadFileMinio = async (url: string, file: File) => {
   return res
 }
 
-export const generateFileUrl = (bucket: keyof typeof buckets, filename: string) => {
-  return `${process.env.NEXT_PUBLIC_MINIO_PUBLIC_UPLOADS_URL}/${filename}`
+export const generateFileUrl = (filename: string) => {
+  return `${env.NEXT_PUBLIC_MINIO_PUBLIC_UPLOADS_URL}/${env.NEXT_PUBLIC_MINIO_UPLOADS_BUCKET}/${filename}`
 }
 

@@ -3,9 +3,10 @@ import {comparePasswords} from "./utils";
 import {authSchema} from "@/plugins/zod/auth";
 import {prisma} from "@/plugins/prisma";
 import Credentials from "next-auth/providers/credentials";
+import {env} from "@/env/server";
 
 export const {handlers, signIn, signOut, auth} = NextAuth({
-  secret: process.env.AUTH_SECRET,
+  secret: env.AUTH_SECRET,
   providers: [
     Credentials({
       credentials: {
