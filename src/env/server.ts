@@ -13,7 +13,7 @@ export const env = createEnv({
     SERWIST_SUPPRESS_TURBOPACK_WARNING: z.union([
       z.literal('1'),
       z.literal('0')
-    ]),
+    ]).optional(),
     APP_ENV: z.union([
       z.literal('development'),
       z.literal('production')
