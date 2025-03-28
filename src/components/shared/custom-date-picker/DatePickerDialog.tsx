@@ -1,7 +1,7 @@
-import DrawerDialog from "@/components/dialog/DrawerDialog";
+import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
 import {DrawerContent, DrawerDescription, DrawerFooter, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
-import CustomDatePicker from "@/components/custom-date-picker/CustomDatePicker";
-import { Button } from "../ui/button";
+import CustomDatePicker from "@/components/shared/custom-date-picker/CustomDatePicker";
+import { Button } from "../../ui/button";
 import {useEffect, useState} from "react";
 import {resolveDateFull} from "@/utils";
 

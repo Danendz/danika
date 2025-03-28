@@ -1,5 +1,5 @@
 "use client";
-import Card from "@/components/card/Card";
+import Card from "@/components/shared/card/Card";
 import {trpc} from "@/trpc/client";
 import {Skeleton} from "@/components/ui/skeleton";
 import {EventData} from "@/modules/calendar/types";
@@ -9,7 +9,7 @@ import {useCalendarStore} from "@/components/calendar/store/useCalendarStore";
 import {differenceInCalendarDays} from "date-fns";
 import {useMemo} from "react";
 import {isDateBetween} from "@/utils";
-import {AnimatePresence, motion} from "motion/react";
+import {AnimatePresence} from "motion/react";
 import EventCardAnimationLayout from "@/modules/calendar/event-card/EventCardAnimationLayout";
 
 const eventsLoadingArray = new Array(3).fill(0)
