@@ -1,9 +1,10 @@
 import withSerwistInit from "@serwist/next";
+import {env} from "@/env/server";
 
 const withSerwist = withSerwistInit({
   swSrc: "src/app/sw.ts",
   swDest: "public/sw.js",
-  disable: process.env.APP_ENV !== "production",
+  disable: env.APP_ENV !== "production",
 })
 
 const nextConfig = withSerwist({
@@ -12,7 +13,7 @@ const nextConfig = withSerwist({
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: process.env.MINIO_ENDPOINT!
+        hostname: env.MINIO_ENDPOINT
       }
     ]
   }

@@ -1,9 +1,10 @@
 import * as Minio from 'minio'
+import {env} from "@/env/server";
 
 export const minioClient = new Minio.Client({
-  endPoint: process.env.MINIO_ENDPOINT!,
-  port: parseInt(process.env.MINIO_PORT!),
+  endPoint: env.MINIO_ENDPOINT,
+  port: parseInt(env.MINIO_PORT),
   useSSL: true,
-  accessKey: process.env.MINIO_USER,
-  secretKey: process.env.MINIO_PASSWORD,
+  accessKey: env.MINIO_USER,
+  secretKey: env.MINIO_PASSWORD,
 })
