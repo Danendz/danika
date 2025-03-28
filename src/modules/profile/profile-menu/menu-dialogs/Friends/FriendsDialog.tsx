@@ -11,7 +11,7 @@ import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/
 import FriendsList from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsList";
 import {useState} from "react";
 import FriendAddDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendAddDialog";
-import DrawerDialog from "@/components/dialog/DrawerDialog";
+import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
 import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
 import FriendRequestsDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendRequestsDialog";
 

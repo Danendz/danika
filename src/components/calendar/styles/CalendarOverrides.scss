@@ -90,6 +90,10 @@
           user-select: none;
         }
 
+        &.rbc-now {
+          color: var(--primary)
+        }
+
         &.rbc-current:not(.rbc-now) {
           button {
             width: calc(var(--spacing) * 10);

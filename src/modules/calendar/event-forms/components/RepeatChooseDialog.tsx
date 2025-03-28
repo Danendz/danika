@@ -1,5 +1,5 @@
 import {EventRepeat} from "@prisma/client";
-import DrawerDialog from "@/components/dialog/DrawerDialog";
+import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
 import {DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
 import {Button} from "@/components/ui/button";
 import {EventData} from "@/modules/calendar/types";

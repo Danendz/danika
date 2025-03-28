@@ -2,7 +2,7 @@
 
 import {Button} from "@/components/ui/button";
 import {PlusIcon, SquareCheckIcon, StarIcon} from "lucide-react";
-import DrawerDialog from "@/components/dialog/DrawerDialog";
+import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
 import {useCallback, useEffect, useReducer, useState} from "react";
 import {DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
 import {clsx} from "clsx";

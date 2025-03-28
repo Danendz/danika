@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import {resolveDateFull} from "@/utils";
-import DatePickerDialog from "@/components/custom-date-picker/DatePickerDialog";
+import DatePickerDialog from "@/components/shared/custom-date-picker/DatePickerDialog";
 import {EventData} from "@/modules/calendar/types";
 import {getRepeatNameByValue} from "@/modules/calendar/utils";
 import RepeatChooseDialog from "@/modules/calendar/event-forms/components/RepeatChooseDialog";
