@@ -1,5 +1,5 @@
 ﻿"use client"
-import {FC, useReducer, useRef} from "react";
+import {FC, useEffect, useReducer, useRef} from "react";
 import {motion, useMotionValue} from 'motion/react'
 import {
   SwipeableDataType,
@@ -34,6 +34,18 @@ export default function SwipeableContainer<T>(
   const [items, dispatchItem] = useReducer(reducerFunc, initial)
   const dragX = useMotionValue(0)
   const swipeContainerRef = useRef<HTMLDivElement | null>(null)
+
+  useEffect(() => {
+    if (currentIndex > items.next.length) {
+      for (let i = 0; i <= (currentIndex - items.next.length) + 1; i++) {
+        dispatchItem({type: 'ADD_NEXT_ITEM'})
+      }
+    } else if (currentIndex < 0 && Math.abs(currentIndex) > items.prev.length) {
+      for (let i = 0; i <= (Math.abs(currentIndex) - items.next.length) + 1; i++) {
+        dispatchItem({type: 'ADD_PREV_ITEM'})
+      }
+    }
+  }, [currentIndex])
 
   const onDragEnd = () => {
     const x = dragX.get()
@@ -94,14 +106,14 @@ export default function SwipeableContainer<T>(
           if (itemId === itemIndex) {
             return (
               <div className="w-full absolute shrink-0" style={transform} key={getUniqueIterationKey(value)}>
-                <CurrentComponent swipeableItem={value} />
+                <CurrentComponent swipeableItem={value}/>
               </div>
             )
           }
 
           return currentIndex <= 0 && (itemId + 1 === itemIndex || itemId - 1 === itemIndex) ? (
             <div className="w-full absolute shrink-0" style={transform} key={getUniqueIterationKey(value)}>
-              <MockComponent swipeableItem={value} />
+              <MockComponent swipeableItem={value}/>
             </div>
           ) : null
         })}
@@ -111,14 +123,14 @@ export default function SwipeableContainer<T>(
           if (currentIndex === i) {
             return (
               <div key={getUniqueIterationKey(value)} className="w-full shrink-0 absolute" style={transform}>
-                <CurrentComponent swipeableItem={value} />
+                <CurrentComponent swipeableItem={value}/>
               </div>
             )
           }
 
           return currentIndex + 1 === i || currentIndex - 1 === i ? (
             <div className="w-full shrink-0 absolute" style={transform} key={getUniqueIterationKey(value)}>
-              <MockComponent swipeableItem={value} />
+              <MockComponent swipeableItem={value}/>
             </div>
           ) : null
         })}

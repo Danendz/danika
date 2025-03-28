@@ -1,3 +1,4 @@
+"use client"
 import Card from "@/components/shared/card/Card";
 import {Button} from "@/components/ui/button";
 import {Input} from "@/components/ui/input";
