@@ -1,5 +1,5 @@
 ﻿"use client"
-import {FC, useReducer} from "react";
+import {FC, useReducer, useRef} from "react";
 import {motion, useMotionValue} from 'motion/react'
 import {
   SwipeableDataType,
@@ -18,6 +18,8 @@ interface Props<T> {
   currentIndex: number
 }
 
+const itemTransition = {duration: 0.4}
+
 export default function SwipeableContainer<T>(
   {
     dragThreshold,
@@ -31,6 +33,7 @@ export default function SwipeableContainer<T>(
   }: Props<T>) {
   const [items, dispatchItem] = useReducer(reducerFunc, initial)
   const dragX = useMotionValue(0)
+  const swipeContainerRef = useRef<HTMLDivElement | null>(null)
 
   const onDragEnd = () => {
     const x = dragX.get()
@@ -64,13 +67,16 @@ export default function SwipeableContainer<T>(
   return (
     <div className="overflow-hidden relative w-full">
       <motion.div
+        ref={swipeContainerRef}
         drag="x"
         dragConstraints={{
           left: 0,
           right: 0
         }}
         onDragEnd={onDragEnd}
-        transition={{x: {type: 'spring', bounce: 0}}}
+        dragElastic={0.7}
+        transition={itemTransition}
+        dragMomentum={false}
         style={{
           x: dragX
         }}
