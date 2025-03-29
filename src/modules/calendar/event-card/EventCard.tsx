@@ -53,13 +53,13 @@ export default function EventCard() {
     )
   }
 
-  if (!events.length) {
-    return (
-      <Card>
-        No events!
-      </Card>
-    )
-  }
+  // if (!events.length) {
+  //   return (
+  //     <Card>
+  //       No events!
+  //     </Card>
+  //   )
+  // }
 
   const getCardComponent = (type: EventData['type']) => {
     switch (type) {
@@ -74,7 +74,7 @@ export default function EventCard() {
     <Card>
       <div className="flex flex-col gap-5">
         <AnimatePresence>
-          {events.map((data) => {
+          {events.length ? events.map((data) => {
             const CardComponent = getCardComponent(data.type)
             return (
               <EventCardAnimationLayout key={data.id}>
@@ -83,7 +83,9 @@ export default function EventCard() {
                 </div>
               </EventCardAnimationLayout>
             )
-          })}
+          }) : (
+            <div>No events!</div>
+          )}
         </AnimatePresence>
       </div>
     </Card>

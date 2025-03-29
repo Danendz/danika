@@ -36,6 +36,8 @@ const getInitialData = (currentDate: Date): SwipeableInitialDataType<Date> => {
   const prevDate = new Date(currentDate)
   const nextDate = new Date(currentDate)
 
+  prevDate.setDate(1)
+  nextDate.setDate(1)
   prevDate.setMonth(prevDate.getMonth() - 1)
   nextDate.setMonth(nextDate.getMonth() + 1)
 

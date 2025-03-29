@@ -2,8 +2,9 @@ import {StarIcon} from "lucide-react";
 import {format, differenceInCalendarDays} from "date-fns";
 import {useCalendarStore} from "@/components/calendar/store/useCalendarStore";
 import {EventCardProps} from "@/modules/calendar/event-card/types";
+import UserLine from "@/modules/calendar/event-card/UserLine";
 
-export default function CountdownCard({data: {name, from: when}}: EventCardProps) {
+export default function CountdownCard({data: {name, from: when, user}}: EventCardProps) {
   const {date} = useCalendarStore()
   const difference = differenceInCalendarDays(when, date)
 
@@ -12,6 +13,7 @@ export default function CountdownCard({data: {name, from: when}}: EventCardProps
       <div className="flex justify-between items-center">
         <div>
           <div className="font-medium">{name}</div>
+          <UserLine user={user} />
           <div className="flex items-center gap-1 text-sm text-secondary-foreground opacity-80">
             <StarIcon size={10} className="text-violet-500 fill-violet-500"/>
             <span>Countdown | {format(when, 'LLL d, yyyy')}</span>

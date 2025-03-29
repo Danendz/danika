@@ -1,6 +1,6 @@
 import { RouterOutput } from "@/trpc/routers/_app"
-import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendCard";
-import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
+import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendCard";
+import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsTextCard";
 
 export default function FriendsList ({list}: { list: RouterOutput['friend']['listFriends'] }) {
   if (!list.length) {

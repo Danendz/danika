@@ -18,6 +18,7 @@ export default function EventForm({data, onChange}: Props) {
   const [isRepeatDialogVisible, setIsRepeatDialogVisible] = useState(false)
 
   const [allDay, setAllDay] = useState(data.all_day)
+  const [includeEndDate, setIncludeEndDate] = useState(true)
   const [repeat, setRepeat] = useState(data.repeat as EventRepeat)
 
   const [fromDate, setFromDate] = useState(data.from as Date)
@@ -27,11 +28,11 @@ export default function EventForm({data, onChange}: Props) {
   useEffect(() => {
     onChange({
       from: fromDate,
-      to: toDate,
+      to: includeEndDate ? toDate : null,
       all_day: allDay,
       repeat: repeat
     })
-  }, [fromDate, toDate, allDay, repeat, onChange]);
+  }, [fromDate, toDate, allDay, repeat, onChange, includeEndDate]);
 
   return (
     <div className="flex flex-col gap-6">
@@ -42,13 +43,14 @@ export default function EventForm({data, onChange}: Props) {
         setIsDialogVisible={setDateFromPickerVisible}
         title="From"
       />
-      <DatePickerDialog
+
+      {toDate && <DatePickerDialog
         initial={toDate}
         onSubmit={setToDate}
         isDialogVisible={dateToPickerVisible}
         setIsDialogVisible={setDateToPickerVisible}
         title="To"
-      />
+      />}
 
       <RepeatChooseDialog
         isDialogVisible={isRepeatDialogVisible}
@@ -61,13 +63,16 @@ export default function EventForm({data, onChange}: Props) {
       <div className="flex justify-between items-center">
         All day <Switch checked={allDay} onCheckedChange={(e) => setAllDay(e)}/>
       </div>
-      <div className="flex justify-between items-center" onClick={() => setDateFromPickerVisible(true)}>
+      <div className="flex justify-between items-center cursor-pointer" onClick={() => setDateFromPickerVisible(true)}>
         <span>From </span> {resolveDateFull(fromDate)}
       </div>
-      <div className="flex justify-between items-center" onClick={() => setDateToPickerVisible(true)}>
-        <span>To </span> {resolveDateFull(toDate)}
+      <div className="flex justify-between items-center">
+        Include end date <Switch checked={includeEndDate} onCheckedChange={(e) => setIncludeEndDate(e)}/>
       </div>
-      <div className="flex justify-between items-center" onClick={() => setIsRepeatDialogVisible(true)}>
+      {toDate && <div className="flex justify-between items-center cursor-pointer" onClick={() => setDateToPickerVisible(true)}>
+        <span>To </span> {resolveDateFull(toDate)}
+      </div>}
+      <div className="flex justify-between items-center cursor-pointer" onClick={() => setIsRepeatDialogVisible(true)}>
         <span>Repeat </span> {getRepeatNameByValue(repeat, fromDate)}
       </div>
     </div>

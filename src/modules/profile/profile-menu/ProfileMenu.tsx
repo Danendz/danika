@@ -9,11 +9,13 @@ import {
 } from "lucide-react";
 import {signOut} from "next-auth/react";
 import {useState} from "react";
-import FriendsDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsDialog";
+import FriendsDialog from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsDialog";
 import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
+import SettingsDialog from "@/modules/profile/profile-menu/menu-dialogs/settings/SettingsDialog";
 
 export const ProfileMenu = () => {
   const [showFriendsDialog, setFriendsDialog] = useState(false)
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false)
 
   const menuItems = [
     {
@@ -41,7 +43,10 @@ export const ProfileMenu = () => {
       children: [
         {
           name: 'Settings',
-          Icon: SettingsIcon
+          Icon: SettingsIcon,
+          action: () => {
+            setShowSettingsDialog(true)
+          }
         },
         {
           name: 'Logout',
@@ -58,6 +63,9 @@ export const ProfileMenu = () => {
     <>
       <DrawerDialog isDialogVisible={showFriendsDialog} setIsDialogVisible={setFriendsDialog}>
         <FriendsDialog showFriendsDialog={showFriendsDialog} />
+      </DrawerDialog>
+      <DrawerDialog isDialogVisible={showSettingsDialog} setIsDialogVisible={setShowSettingsDialog}>
+        <SettingsDialog />
       </DrawerDialog>
       <div className="flex flex-col gap-4 justify-center md:justify-start mt-13">
         {menuItems.map(({type, children}) => (

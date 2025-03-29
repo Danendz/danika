@@ -4,9 +4,9 @@ import {Button} from "@/components/ui/button";
 import {trpc} from "@/trpc/client";
 import {ChangeEvent, useCallback, useMemo, useState} from "react";
 import {toast} from "sonner";
-import FriendLoadingCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendLoadingCard";
-import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendCard";
-import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
+import FriendLoadingCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendLoadingCard";
+import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendCard";
+import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsTextCard";
 import {PlusIcon} from "lucide-react";
 
 export default function FriendAddDialog() {

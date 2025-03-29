@@ -1,9 +1,9 @@
 import {DrawerContent, DrawerHeader, DrawerTitle} from "@/components/ui/drawer";
 import {trpc} from "@/trpc/client";
 import {useCallback} from "react";
-import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsLoading";
-import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
-import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendCard";
+import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsLoading";
+import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsTextCard";
+import FriendCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendCard";
 import {Button} from "@/components/ui/button";
 import {CheckIcon, RefreshCwIcon, XIcon} from "lucide-react";
 import {toast} from "sonner";

@@ -1,6 +1,6 @@
 ﻿"use client"
 import {FC, useEffect, useReducer, useRef} from "react";
-import {motion, useMotionValue} from 'motion/react'
+import {motion, PanInfo, useMotionValue} from 'motion/react'
 import {
   SwipeableDataType,
   SwipeableInitialDataType,
@@ -47,8 +47,8 @@ export default function SwipeableContainer<T>(
     }
   }, [currentIndex])
 
-  const onDragEnd = () => {
-    const x = dragX.get()
+  const onDragEnd = (e: DragEvent, info: PanInfo) => {
+    const x = dragX.get() + info.velocity.x
     let newIndex = currentIndex
     if (x <= -dragThreshold) {
       newIndex = currentIndex + 1

@@ -7,13 +7,13 @@ import {
 import {trpc} from "@/trpc/client";
 import {Button} from "@/components/ui/button";
 import {PlusIcon, RefreshCwIcon, UserPlus} from "lucide-react";
-import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsLoading";
-import FriendsList from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsList";
+import FriendsLoading from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsLoading";
+import FriendsList from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsList";
 import {useState} from "react";
-import FriendAddDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendAddDialog";
+import FriendAddDialog from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendAddDialog";
 import DrawerDialog from "@/components/shared/dialog/DrawerDialog";
-import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendsTextCard";
-import FriendRequestsDialog from "@/modules/profile/profile-menu/menu-dialogs/Friends/FriendRequestsDialog";
+import FriendsTextCard from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendsTextCard";
+import FriendRequestsDialog from "@/modules/profile/profile-menu/menu-dialogs/friends/FriendRequestsDialog";
 
 export default function FriendsDialog({showFriendsDialog}: { showFriendsDialog: boolean }) {
   const {data, isLoading, isError, refetch} = trpc.friend.listFriends.useQuery(
